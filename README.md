@@ -1,14 +1,14 @@
 ---User Story
 
-As a user, I want to...
--view Magic: The Gathering (MTG) cards in the standard format
--sort cards by normal MTG metrics (mana cost, card type, etc.)
--create decks with standard-legal cards
--edit those decks
--delete decks
--add comments to specific cards in the deck
--have a page displaying my three favorite cards in the standard format
--add comments to decks as a whole
+As a user, I want to...<br/>
+-view Magic: The Gathering (MTG) cards in the standard format<br/>
+-sort cards by normal MTG metrics (mana cost, card type, etc.)<br/>
+-create decks with standard-legal cards<br/>
+-edit those decks<br/>
+-delete decks<br/>
+-add comments to specific cards in the deck<br/>
+-have a page displaying my three favorite cards in the standard format<br/>
+-add comments to decks as a whole<br/>
 
 ---Wireframes
 
