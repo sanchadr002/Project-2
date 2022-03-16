@@ -20,6 +20,7 @@ const cardSchema = new Schema(
 			type: Schema.Types.ObjectID,
 			ref: 'User',
 		},
+        imageURL: { type: String, required: true },
         scryfallApiId: { type: String, required: true }
 	},
 	{ timestamps: true }
