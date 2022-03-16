@@ -1,0 +1,31 @@
+{% layout 'layout.liquid'%}
+{% block content %}
+<div>
+    <h2 class="display-6">All Decks</h2>
+    <div class="row">
+
+        <!-- deck reference -->
+        {% for deck in decks %}
+        <div class="card" style="width: 18rem;">
+
+            <!-- deck reference -->
+            <h5 class="card-header">{{ deck.name }}</h5>
+            <div class="card-body">
+                <!-- mana color(s) reference / FIX EXAMPLE REF -->
+                <p class="card-text">
+                    {{ example.body }}
+                </p>
+                <!-- comment reference / FIX EXAMPLE REF -->
+                <p class="card-text">
+                    Amount: {{ example.amount }}
+                </p>
+                <!-- link to the deck view / FIX EXAMPLE REF -->
+                <a href="/examples/{{ example.id }}" class="btn btn-info">
+                    View {{ example.title }}
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
