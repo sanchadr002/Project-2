@@ -1,0 +1,33 @@
+{% layout 'layout.liquid' %}
+{% block content %}
+<div class="container-sm">
+    <form action="/examples" method="POST">
+        <fieldset>
+            <legend>Create New Deck</legend>
+            <label class="form-label">Name:</label>
+            <input 
+                type="text" 
+                name="name" 
+                placeholder="enter deck name"
+                class="form-control"
+            >
+            <!-- will have to add card search form here somewhere -->
+            <!-- likely will have to alter this from its current general format -->
+            <label class="form-label">Cards:</label>
+            <!-- <input 
+                type="number" 
+                name="amount" 
+                class="form-control"
+            > -->
+            <!-- top card checkbox for player to indicate if its a top card in the deck -->
+            <label class="form-label">Top Card:</label>
+            <input 
+                type="checkbox" 
+                name="ready" 
+                class="form-check-input"
+            >
+        </fieldset>
+        <input type="submit" value="Create New Deck" class="btn btn-success">
+    </form>
+</div>
+{% endblock %}
