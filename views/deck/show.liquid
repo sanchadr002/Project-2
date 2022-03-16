@@ -1,0 +1,21 @@
+{% layout 'layout.liquid' %}
+{% block content %}
+<div class="container-md">
+    <article>
+        <!-- deck reference -->
+        <h2>{{ deck.name }}</h2>
+        <!-- deck reference -->
+        <h6>Cards:</h6>
+        <!-- add list of cards here -->
+        <div class="btn-group">
+            <!-- deck reference -->
+            <a href="/decks/{{ deck.id }}/edit" class="btn btn-primary">Edit</a>
+            <!-- deck reference -->
+            <form action="/decks/{{ deck.id }}?_method=DELETE" method="POST">
+                <input type="submit" value="Delete" class="btn btn-danger">
+            </form>
+        </div>
+        {% endif %}
+    </article>
+</div>
+{% endblock %}
