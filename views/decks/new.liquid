@@ -1,7 +1,7 @@
 {% layout 'layout.liquid' %}
 {% block content %}
 <div class="container-sm">
-    <form action="/examples" method="POST">
+    <form action="/decks" method="POST">
         <fieldset>
             <legend>Create New Deck</legend>
             <label class="form-label">Name:</label>
@@ -14,19 +14,116 @@
             <!-- will have to add card search form here somewhere -->
             <!-- likely will have to alter this from its current general format -->
             <label class="form-label">Cards:</label>
-            <!-- <input 
-                type="number" 
-                name="amount" 
-                class="form-control"
-            > -->
-            <!-- top card checkbox for player to indicate if its a top card in the deck -->
-            <label class="form-label">Top Card:</label>
-            <input 
-                type="checkbox" 
-                name="ready" 
-                class="form-check-input"
-            >
+                <div id="card-search-div" class="container-sm">
+                    <label class="form-label">Card name:</label>
+                    <input 
+                        type="search" 
+                        name="card-name" 
+                        placeholder="search card name" 
+                        id="name-search"
+                        class="form-control"
+                    ><br/>
+                    <label class="form-label">Mana value:</label>
+                    <input 
+                        type="number"
+                        name="mana-value"
+                        placeholder="choose mana value"
+                        id="mv-search" 
+                        class="form-control"
+                    ><br/>
+                    <div id="card-type-div" class="container-sm">
+                        <label class="form-label">Card type:</label><br/>
+                        Instant
+                        <input
+                            type="checkbox"
+                            name="instant-box"
+                            id="instant-box"
+                            class="form-control"
+                        ><br/>
+                        Sorcery
+                        <input
+                            type="checkbox"
+                            name="sorcery-box"
+                            id="instant-box"
+                            class="form-control"
+                        ><br/>
+                        Creature
+                        <input
+                            type="checkbox"
+                            name="creature-box"
+                            id="creature-box"
+                            class="form-control"
+                        ><br/>
+                        Artifact
+                        <input
+                            type="checkbox"
+                            name="artifact-box"
+                            id="artifact-box"
+                            class="form-control"
+                        ><br/>
+                        Enchantment
+                        <input
+                            type="checkbox"
+                            name="enchantment-box"
+                            id="artifact-box"
+                            class="form-control"
+                        ><br/>
+                        Planeswalker
+                        <input
+                            type="checkbox"
+                            name="pw-box"
+                            id="pw-box"
+                            class="form-control"
+                        ><br/>
+                        Land
+                        <input
+                            type="checkbox"
+                            name="land-box"
+                            id="land-box"
+                            class="form-control"
+                        >
+                    </div>
+                    <div id="mana-color-div" class="container-sm">
+                        <label class="form-label">Mana Color:</label>
+                        White
+                        <input
+                            type="checkbox"
+                            name="white-box"
+                            id="white-box"
+                            class="form-control"
+                        >
+                        Blue
+                        <input
+                            type="checkbox"
+                            name="blue-box"
+                            id="blue-box"
+                            class="form-control"
+                        >
+                        Black
+                        <input
+                            type="checkbox"
+                            name="black-box"
+                            id="black-box"
+                            class="form-control"
+                        >
+                        Red
+                        <input
+                            type="checkbox"
+                            name="red-box"
+                            id="black-box"
+                            class="form-control"
+                        >
+                        Green
+                        <input
+                            type="checkbox"
+                            name="green-box"
+                            id="green-box"
+                            class="form-control"
+                        >
+                    </div>
+                </div>
             <!-- add a comment field -->
+
         </fieldset>
         <input type="submit" value="Create New Deck" class="btn btn-success">
     </form>
