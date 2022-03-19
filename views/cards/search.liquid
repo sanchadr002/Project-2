@@ -1,7 +1,7 @@
 {% layout 'layout.liquid' %}
 {% block content %}
 <div class="container-sm">
-    <form action="/search?_method=PUT" method="POST">
+    <form action="/cards/search?_method=PUT" method="POST">
         <label class="form-label">Cards:</label>
             <div id="card-search-div" class="container-sm">
                 <label class="form-label">Card name:</label>
@@ -69,31 +69,31 @@
                     White
                     <input
                         type="checkbox"
-                        name="white-box"
+                        name="white"
                         id="white-box"
                     >
                     Blue
                     <input
                         type="checkbox"
-                        name="blue-box"
+                        name="blue"
                         id="blue-box"
                     >
                     Black
                     <input
                         type="checkbox"
-                        name="black-box"
+                        name="black"
                         id="black-box"
                     >
                     Red
                     <input
                         type="checkbox"
-                        name="red-box"
+                        name="red"
                         id="black-box"
                     >
                     Green
                     <input
                         type="checkbox"
-                        name="green-box"
+                        name="green"
                         id="green-box"
                     >
                 </div>
