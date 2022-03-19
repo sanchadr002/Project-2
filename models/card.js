@@ -12,7 +12,7 @@ const { Schema, model } = mongoose
 const cardSchema = new Schema(
 	{
 		name: { type: String, required: true },
-		cmc: { type: Number, required: true },
+		mv: { type: Number, required: true },
         colorIdentity: { type: String, required: true },
         cardType: { type: String, required: true },
 		topCard: { type: Boolean },
