@@ -1,7 +1,10 @@
 // Import Dependencies
 require('dotenv').config()
+const { Router } = require('express')
 const express = require('express')
-const fetch = require('node-fetch')
+const res = require('express/lib/response')
+const Cards = require('../models/cards')
+const apiUrl = process.env.scryfallApiUrl
 
 // Create router
 const router = express.Router()
@@ -20,57 +23,117 @@ router.use((req, res, next) => {
 	}
 })
 
-const apiUrl = process.env.scryfallApiUrl
+// Routes
 
-router.get("/search", (req, res) => {
-    res.render("cards/search")
+// index ALL
+router.get('/', (req, res) => {
+	fetch(`${apiUrl}f:standard`)
+	.then(cardObjectsList=>{
+		return cardObjectsList.json()
+	})
+	.then(cardObjectsList => {
+		res.render('cards/search')
+	})
+	// Cards.find({})
+	// 	.then(decks => {
+	// 		const username = req.session.username
+	// 		const loggedIn = req.session.loggedIn
+	// 		res.render('cards/index', { decks, username, loggedIn })
+	// 	})
+	// 	.catch(error => {
+	// 		res.redirect(`/error?error=${error}`)
+	// 	})
 })
 
-router.put("/search", (req, res) => {
-    // const searchResults = []
-    // const nameParam = req.body.name.toString()
-    // const mvParam = req.body.mv
-    const typeParam = []
-    const createTypeParam = (type) => {
-        if (req.body.type === 'on'){
-            typeParam.push(`t:${type}`)
-            console.log('this is being pushed to typeParam t:', type)
-        }
-    }
 
-    createTypeParam('instant')
-    createTypeParam('sorcery')
-    createTypeParam('creature')
-    createTypeParam('artifact')
-    createTypeParam('enchantment')
-    createTypeParam('planeswalker')
-    createTypeParam('land')
-
-    const colorParam = []
-    const createColorParam = (color) => {
-        if (req.body.color === 'on'){
-            colorParam.push(`c:${color}`)
-            console.log('this is being pushed to colorParam t:', color)
-        }
-    }
-
-    createColorParam('white')
-    createColorParam('blue')
-    createColorParam('black')
-    createColorParam('red')
-    createColorParam('green')
-
-    // fetch(`${apiUrl}/q=`)
-    // .then(cards => {
-    //     console.log(cards, "this shows the response from api")
-    //     // const username = req.session.username
-    //     // const loggedIn = req.session.loggedIn
-    // })
-    // .catch(error => {
-    //     res.redirect(`/error?error=${error}`)
-    // })
-    res.redirect('/cards/search')
+router.get('/search', (req, res) => {
+	res.render('cards/search')
 })
+
+router.put('/search', (req, res) => {
+	res.redirect('/cards/results')
+}
+)
+
+router.get('/results', (req, res) => {
+	res.render('cards/results')
+})
+
+// // create -> POST route that actually calls the db and makes a new document
+// router.post('/', (req, res) => {
+// 	// req.body.ready = req.body.ready === 'on' ? true : false
+// 	req.body.owner = req.session.userId
+// 	// reference to decks
+// 	Decks.create(req.body)
+// 		// reference to decks
+// 		.then(decks => {
+// 			console.log('this was returned from create', decks)
+// 			res.redirect('/decks')
+// 		})
+// 		.catch(error => {
+// 			res.redirect(`/error?error=${error}`)
+// 		})
+// })
+
+// // edit route -> GET that takes us to the edit form view
+// router.get('/:id/edit', (req, res) => {
+// 	// we need to get the id
+// 	const deckId = req.params.id
+// 	// reference to decks
+// 	Decks.findById(deckId)
+// 		// reference to decks
+// 		.then(decks => {
+// 			// reference to decks
+// 			res.render('decks/edit', { decks })
+// 		})
+// 		.catch((error) => {
+// 			res.redirect(`/error?error=${error}`)
+// 		})
+// })
+
+// // update route
+// router.put('/:id', (req, res) => {
+// 	const deckId = req.params.id
+// 	// req.body.ready = req.body.ready === 'on' ? true : false
+// 	// reference to decks
+// 	Decks.findByIdAndUpdate(deckId, req.body, { new: true })
+// 		// reference to decks
+// 		.then(decks => {
+// 			// reference to decks
+// 			res.redirect(`/decks/${decks.id}`)
+// 		})
+// 		.catch((error) => {
+// 			res.redirect(`/error?error=${error}`)
+// 		})
+// })
+
+// // show route
+// router.get('/:id', (req, res) => {
+// 	const deckId = req.params.id
+// 	// reference to decks
+// 	Decks.findById(deckId)
+// 		// reference to decks
+// 		.then(decks => {
+//             const {username, loggedIn, userId} = req.session
+// 			// reference to decks
+// 			res.render('decks/show', { decks, username, loggedIn, userId })
+// 		})
+// 		.catch((error) => {
+// 			res.redirect(`/error?error=${error}`)
+// 		})
+// })
+
+// delete route
+// router.delete('/:id', (req, res) => {
+// 	const deckId = req.params.id
+// 	Decks.findByIdAndRemove(deckId)
+// 		.then(decks => {
+// 			res.redirect('/decks')
+// 		})
+// 		.catch(error => {
+// 			res.redirect(`/error?error=${error}`)
+// 		})
+// })
 
 // Export the Router
 module.exports = router

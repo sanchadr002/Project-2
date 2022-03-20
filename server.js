@@ -4,9 +4,8 @@
 require("dotenv").config() // make env variables available
 const express = require("express")
 const middleware = require('./utils/middleware')
-const DecksRouter = require('./controllers/decks')
+const CardsRouter = require('./controllers/cards')
 const UserRouter = require('./controllers/user')
-const CardsRouter = require('./controllers/cards.js')
 const User = require("./models/user")
 // SEE MORE DEPENDENCIES IN ./utils/middleware.js
 // user and resource routes linked in ./utils/middleware.js
@@ -24,7 +23,6 @@ middleware(app)
 
 // reference to decks
 app.use('/auth', UserRouter)
-app.use('/decks', DecksRouter)
 app.use('/cards', CardsRouter)
 
 app.get('/', (req, res) => {

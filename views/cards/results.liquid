@@ -1,7 +1,7 @@
 {% layout 'layout.liquid' %}
 {% block content %}
 <div class="container-sm">
-    <form action="/cards/results" method="GET">
+    <!-- <form action="/cards/results">
         <label class="form-label">Cards:</label>
             <div id="card-search-div" class="container-sm">
                 <label class="form-label">Card name:</label>
@@ -99,6 +99,12 @@
                 </div>
             </div>
         <input type="submit" value="Search Cards" class="btn btn-success">
-    </form>
+    </form> -->
+    results page
+    {% for result in results %}
+        <ul>
+            <li>result</li>
+        </ul>
+    {% endfor %}
 </div>
 {% endblock %}
