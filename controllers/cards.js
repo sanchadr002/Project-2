@@ -5,6 +5,8 @@ const express = require('express')
 const res = require('express/lib/response')
 const Cards = require('../models/cards')
 const apiUrl = process.env.scryfallApiUrl
+const fetch = require('node-fetch')
+const forEach = require('for-each')
 
 // Create router
 const router = express.Router()
@@ -26,12 +28,58 @@ router.use((req, res, next) => {
 // Routes
 
 // index ALL
-router.get('/', (req, res) => {
-	fetch(`${apiUrl}f:standard`)
+router.get('/', async (req, res) => {
+	fetch(`${apiUrl}q=f%3Astandard`)
 	.then(cardObjectsList=>{
 		return cardObjectsList.json()
 	})
 	.then(cardObjectsList => {
+		// for (let i = 0; i < 100; i++){
+		// 	Cards.create({
+		// 		scryfallApiId: cardObjectsList.data[i].id,
+		// 		name: cardObjectsList.data[i].name,
+		// 		mv: cardObjectsList.data[i].cmc,
+		// 		colorIdentity: cardObjectsList.data[i].color_identity.join(''),
+		// 		cardType: cardObjectsList.data[i].type_line,
+		// 		// owner: User
+		// 		imageUrl: cardObjectsList.data[i].image_uris.small,
+		// 	})
+		// 	console.log('card is being created')
+		// }
+		// forEach(cardObjectsList.data, Cards.create({
+		// 		scryfallApiId: cardObjectsList.data.id.toString(),
+		// 		name: cardObjectsList.data.name,
+		// 		mv: cardObjectsList.data.cmc,
+		// 		colorIdentity: cardObjectsList.data.color_identity.join(''),
+		// 		cardType: cardObjectsList.data.type_line,
+		// 		// owner: User
+		// 		imageUrl: cardObjectsList.data.image_uris.small,
+		// 	})
+		// )
+		// Cards.create({
+		// 	scryfallApiId: cardObjectsList.data.id,
+		// 	name: cardObjectsList.data.name,
+		// 	mv: cardObjectsList.data.cmc,
+		// 	colorIdentity: cardObjectsList.data.color_identity.join(''),
+		// 	cardType: cardObjectsList.data.type_line,
+		// // 		// owner: User
+		// 	imageUrl: cardObjectsList.data.image_uris.small,
+		// })
+		forEach(cardObjectsList.data,
+			Cards.create({
+				scryfallApiId: cardObjectsList.data.id,
+				name: cardObjectsList.data.name,
+				imageUrl: cardObjectsList.data.image_uris.small,
+				mv: cardObjectsList.data.cmc,
+				colorIdentity: cardObjectsList.data.color_identity,
+				cardType: cardObjectsList.data.type_line,
+				// owner: User
+				
+				
+			})
+		)
+
+		console.log(cardObjectsList.data[0].name)
 		res.render('cards/search')
 	})
 	// Cards.find({})
@@ -47,10 +95,17 @@ router.get('/', (req, res) => {
 
 
 router.get('/search', (req, res) => {
+	// if (req.body.instant === 'on'){
+	// 	console.log('instant is checked')
+	// }
 	res.render('cards/search')
+
 })
 
-router.put('/search', (req, res) => {
+router.put('/results', (req, res) => {
+	if (req.body.instant === 'on'){
+		console.log('instant is checked')
+	}
 	res.redirect('/cards/results')
 }
 )
