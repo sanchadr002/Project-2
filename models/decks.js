@@ -10,8 +10,7 @@ const { Schema, model } = mongoose
 const decksSchema = new Schema(
 	[{
 		name: { type: String, required: true },
-		// cards: { array of cards references using card schema },
-        // numCards: { code that counts num of references in cards },
+		cards: { type: Array, required: true },
 		owner: {
 			type: Schema.Types.ObjectID,
 			ref: 'User',

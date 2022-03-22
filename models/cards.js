@@ -11,17 +11,18 @@ const { Schema, model } = mongoose
 // program should pull necessary information from the API and fill out the appropriate fields
 const cardSchema = new Schema(
 	{
-		name: { type: String, required: true },
-		mv: { type: Number, required: true },
-        colorIdentity: { type: String, required: true },
-        cardType: { type: String, required: true },
-		topCard: { type: Boolean },
-		owner: {
-			type: Schema.Types.ObjectID,
-			ref: 'User',
-		},
-        imageURL: { type: String, required: true },
-        scryfallApiId: { type: String, required: true }
+		scryfallApiId: { type: String,  },
+		name: { type: String,  },
+		// imageURL: { type: String, required: true },
+		mv: { type: Number,  },
+        colorIdentity: { type: String,  },
+        cardType: { type: String,  },
+		// topCard: { type: Boolean },
+		// owner: {
+		// 	type: Schema.Types.ObjectID,
+		// 	ref: 'User',
+		// },
+        
 	},
 	{ timestamps: true }
 )
