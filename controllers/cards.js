@@ -6,7 +6,6 @@ const res = require('express/lib/response')
 const Cards = require('../models/cards')
 const apiUrl = process.env.scryfallApiUrl
 const fetch = require('node-fetch')
-const forEach = require('for-each')
 
 // Create router
 const router = express.Router()
@@ -28,69 +27,10 @@ router.use((req, res, next) => {
 // Routes
 
 // index ALL
-router.get('/', async (req, res) => {
-	fetch(`${apiUrl}q=f%3Astandard`)
-	.then(cardObjectsList=>{
-		return cardObjectsList.json()
-	})
-	.then(cardObjectsList => {
-		// for (let i = 0; i < 100; i++){
-		// 	Cards.create({
-		// 		scryfallApiId: cardObjectsList.data[i].id,
-		// 		name: cardObjectsList.data[i].name,
-		// 		mv: cardObjectsList.data[i].cmc,
-		// 		colorIdentity: cardObjectsList.data[i].color_identity.join(''),
-		// 		cardType: cardObjectsList.data[i].type_line,
-		// 		// owner: User
-		// 		imageUrl: cardObjectsList.data[i].image_uris.small,
-		// 	})
-		// 	console.log('card is being created')
-		// }
-		// forEach(cardObjectsList.data, Cards.create({
-		// 		scryfallApiId: cardObjectsList.data.id.toString(),
-		// 		name: cardObjectsList.data.name,
-		// 		mv: cardObjectsList.data.cmc,
-		// 		colorIdentity: cardObjectsList.data.color_identity.join(''),
-		// 		cardType: cardObjectsList.data.type_line,
-		// 		// owner: User
-		// 		imageUrl: cardObjectsList.data.image_uris.small,
-		// 	})
-		// )
-		// Cards.create({
-		// 	scryfallApiId: cardObjectsList.data.id,
-		// 	name: cardObjectsList.data.name,
-		// 	mv: cardObjectsList.data.cmc,
-		// 	colorIdentity: cardObjectsList.data.color_identity.join(''),
-		// 	cardType: cardObjectsList.data.type_line,
-		// // 		// owner: User
-		// 	imageUrl: cardObjectsList.data.image_uris.small,
-		// })
-		forEach(cardObjectsList.data,
-			Cards.create({
-				scryfallApiId: cardObjectsList.data.id,
-				name: cardObjectsList.data.name,
-				imageUrl: cardObjectsList.data.image_uris.small,
-				mv: cardObjectsList.data.cmc,
-				colorIdentity: cardObjectsList.data.color_identity,
-				cardType: cardObjectsList.data.type_line,
-				// owner: User
-				
-				
-			})
-		)
-
-		console.log(cardObjectsList.data[0].name)
-		res.render('cards/search')
-	})
-	// Cards.find({})
-	// 	.then(decks => {
-	// 		const username = req.session.username
-	// 		const loggedIn = req.session.loggedIn
-	// 		res.render('cards/index', { decks, username, loggedIn })
-	// 	})
-	// 	.catch(error => {
-	// 		res.redirect(`/error?error=${error}`)
-	// 	})
+router.get('/', (req, res) => {
+	
+		// console.log(results)
+		res.redirect('/cards/search')
 })
 
 
@@ -98,69 +38,52 @@ router.get('/search', (req, res) => {
 	// if (req.body.instant === 'on'){
 	// 	console.log('instant is checked')
 	// }
+	// console.log(req.body.instant = req.body.instant === 'on' ? true : false)
 	res.render('cards/search')
 
 })
 
 router.put('/results', (req, res) => {
+	console.log(req.body)
+	const searchParamaters = []
 	if (req.body.instant === 'on'){
-		console.log('instant is checked')
+		searchParamaters.push('t%3Ainstant')
 	}
-	res.redirect('/cards/results')
-}
-)
+	
+	console.log(searchParamaters)
+
+	// fetch(`${apiUrl}q=f%3Astandard`)
+	// .then(cardObjectsList=>{
+	// 	return cardObjectsList.json()
+	// })
+	// .then(async cardObjectsList => {
+	// 	const results = []
+	// 	await cardObjectsList.data.forEach( (card) => {
+			
+	// 		// console.log(card.name)
+	// 		// console.log(card.image_uris)
+	// 		// console.log(card.cmc)
+	// 		// console.log(card.color_identity)
+	// 		// console.log(card.type_line)
+	// 		// Cards.create({
+	// 		// 	scryfallApiId: cardObjectsList.data.id,
+	// 		// 	name: cardObjectsList.data.name,
+	// 		// 	// imageUrl: cardObjectsList.data.image_uris.small,
+	// 		// 	mv: cardObjectsList.data.cmc,
+	// 		// 	colorIdentity: cardObjectsList.data.color_identity,
+	// 		// 	cardType: cardObjectsList.data.type_line,
+	// 		// 	// owner: User
+	// 		// results.push(card.name)	
+			
+	// 		// })
+	// 	})
+		res.redirect('/cards/results')
+	// })
+})
 
 router.get('/results', (req, res) => {
 	res.render('cards/results')
 })
-
-// // create -> POST route that actually calls the db and makes a new document
-// router.post('/', (req, res) => {
-// 	// req.body.ready = req.body.ready === 'on' ? true : false
-// 	req.body.owner = req.session.userId
-// 	// reference to decks
-// 	Decks.create(req.body)
-// 		// reference to decks
-// 		.then(decks => {
-// 			console.log('this was returned from create', decks)
-// 			res.redirect('/decks')
-// 		})
-// 		.catch(error => {
-// 			res.redirect(`/error?error=${error}`)
-// 		})
-// })
-
-// // edit route -> GET that takes us to the edit form view
-// router.get('/:id/edit', (req, res) => {
-// 	// we need to get the id
-// 	const deckId = req.params.id
-// 	// reference to decks
-// 	Decks.findById(deckId)
-// 		// reference to decks
-// 		.then(decks => {
-// 			// reference to decks
-// 			res.render('decks/edit', { decks })
-// 		})
-// 		.catch((error) => {
-// 			res.redirect(`/error?error=${error}`)
-// 		})
-// })
-
-// // update route
-// router.put('/:id', (req, res) => {
-// 	const deckId = req.params.id
-// 	// req.body.ready = req.body.ready === 'on' ? true : false
-// 	// reference to decks
-// 	Decks.findByIdAndUpdate(deckId, req.body, { new: true })
-// 		// reference to decks
-// 		.then(decks => {
-// 			// reference to decks
-// 			res.redirect(`/decks/${decks.id}`)
-// 		})
-// 		.catch((error) => {
-// 			res.redirect(`/error?error=${error}`)
-// 		})
-// })
 
 // // show route
 // router.get('/:id', (req, res) => {
@@ -192,3 +115,37 @@ router.get('/results', (req, res) => {
 
 // Export the Router
 module.exports = router
+
+
+// ----------CODE GRAVEYARD-------------
+// for (let i = 0; i < 100; i++){
+		// 	Cards.create({
+		// 		scryfallApiId: cardObjectsList.data[i].id,
+		// 		name: cardObjectsList.data[i].name,
+		// 		mv: cardObjectsList.data[i].cmc,
+		// 		colorIdentity: cardObjectsList.data[i].color_identity.join(''),
+		// 		cardType: cardObjectsList.data[i].type_line,
+		// 		// owner: User
+		// 		imageUrl: cardObjectsList.data[i].image_uris.small,
+		// 	})
+		// 	console.log('card is being created')
+		// }
+		// forEach(cardObjectsList.data, Cards.create({
+		// 		scryfallApiId: cardObjectsList.data.id.toString(),
+		// 		name: cardObjectsList.data.name,
+		// 		mv: cardObjectsList.data.cmc,
+		// 		colorIdentity: cardObjectsList.data.color_identity.join(''),
+		// 		cardType: cardObjectsList.data.type_line,
+		// 		// owner: User
+		// 		imageUrl: cardObjectsList.data.image_uris.small,
+		// 	})
+		// )
+		// Cards.create({
+		// 	scryfallApiId: cardObjectsList.data.id,
+		// 	name: cardObjectsList.data.name,
+		// 	mv: cardObjectsList.data.cmc,
+		// 	colorIdentity: cardObjectsList.data.color_identity.join(''),
+		// 	cardType: cardObjectsList.data.type_line,
+		// // 		// owner: User
+		// 	imageUrl: cardObjectsList.data.image_uris.small,
+		// })
