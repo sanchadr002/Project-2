@@ -1,110 +1,13 @@
 {% layout 'layout.liquid' %}
 {% block content %}
 <div class="container-sm">
-    <!-- <form action="/cards/results">
-        <label class="form-label">Cards:</label>
-            <div id="card-search-div" class="container-sm">
-                <label class="form-label">Card name:</label>
-                <input 
-                    type="search" 
-                    name="name" 
-                    placeholder="search card name" 
-                    id="name-search"
-                ><br/>
-                <label class="form-label">Mana value:</label>
-                <input 
-                    type="number"
-                    name="mv"
-                    placeholder="choose mana value"
-                    id="mv-search"
-                ><br/>
-                <div id="card-type-div" class="container-sm">
-                    <label class="form-label">Card type:</label><br/>
-                    Instant
-                    <input
-                        type="checkbox"
-                        name="instant"
-                        id="instant-box"
-                    ><br/>
-                    Sorcery
-                    <input
-                        type="checkbox"
-                        name="sorcery"
-                        id="instant-box"
-                    ><br/>
-                    Creature
-                    <input
-                        type="checkbox"
-                        name="creature"
-                        id="creature-box"
-                    ><br/>
-                    Artifact
-                    <input
-                        type="checkbox"
-                        name="artifact"
-                        id="artifact-box"
-                    ><br/>
-                    Enchantment
-                    <input
-                        type="checkbox"
-                        name="enchantment"
-                        id="enchantment-box"
-                    ><br/>
-                    Planeswalker
-                    <input
-                        type="checkbox"
-                        name="planeswalker"
-                        id="pw-box"
-                    ><br/>
-                    Land
-                    <input
-                        type="checkbox"
-                        name="land"
-                        id="land-box"
-                    ><br/>
-                    <br/>
-                </div>
-                <div id="mana-color-div" class="container-sm">
-                    <label class="form-label">Mana Color:</label><br/>
-                    White
-                    <input
-                        type="checkbox"
-                        name="white"
-                        id="white-box"
-                    >
-                    Blue
-                    <input
-                        type="checkbox"
-                        name="blue"
-                        id="blue-box"
-                    >
-                    Black
-                    <input
-                        type="checkbox"
-                        name="black"
-                        id="black-box"
-                    >
-                    Red
-                    <input
-                        type="checkbox"
-                        name="red"
-                        id="black-box"
-                    >
-                    Green
-                    <input
-                        type="checkbox"
-                        name="green"
-                        id="green-box"
-                    >
-                </div>
-            </div>
-        <input type="submit" value="Search Cards" class="btn btn-success">
-    </form> -->
     results page
     {% for result in results %}
         <ul>
             <li>result</li>
+            <!-- button to add to CardsToAdd schema -->
         </ul>
     {% endfor %}
+    <!-- button to return to search page -->
 </div>
 {% endblock %}

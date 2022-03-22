@@ -2,10 +2,9 @@
 {% block content %}
 <div class="container-sm">
     <!-- should post to deck view / FIX EXAMPLE REF -->
-    <!-- need to add search form for cards somewhere on the page -->
-    <form action="/examples" method="POST">
+    <form action="/decks" method="POST">
         <fieldset>
-            <legend>Create New Deck</legend>
+            <legend>Edit Deck</legend>
             <label class="form-label">Name: </label>
             <!-- references to deck.name -->
             <input 
@@ -15,18 +14,21 @@
                 value="{{ deck.name }}"
                 class="form-control"
             >
-            <!-- consider whether to display just a list of card names or card name + image -->
             <!-- users should be able to remove and add individual cards here somehow -->
             <!-- card references here / FIX ANY EXAMPLE REFS-->
             <label class="form-label">Cards:</label>
-            <input 
-                type="text" 
-                name="body" 
-                placeholder="{{ example.body }}" 
-                value="{{ example.body }}" 
-                class="form-control"
-            >
-            <!-- top card checkbox that tells computer if card is a top card or not -->
+            <div>
+                <ul>
+                {% for card in deck %}
+                <li>{{card.name}}</li>
+                <!-- <li>{{card.imageUrl}}</li> -->
+                <!-- button to add card -->
+                <!-- JS logic should prevent more than 4 of 1 card from being added -->
+                <!-- button to remove card -->
+                {% endfor %}
+                </ul>
+            </div>
+            <!-- top card checkbox that tells computer if card is a top card or not
             <label class="form-label">Top Card?</label>
             <input 
                 type="checkbox" 
@@ -35,7 +37,7 @@
                 {% if example.ready %}
                     checked
                 {% endif %}
-            >
+            > -->
         </fieldset>
         <input type="submit" value="Update Deck" class="btn btn-success">
     </form>
