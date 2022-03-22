@@ -46,27 +46,66 @@ router.get('/search', (req, res) => {
 router.put('/results', (req, res) => {
 	console.log(req.body)
 	const searchParamaters = []
+	if (req.body.name !== ''){
+		req.body.name = req.body.name.replace(' ', '%20')
+		req.body.name = req.body.name.replace('\'', '%27')
+		searchParamaters.push(`${req.body.name}`)
+	}
+	if (req.body.mv !== ''){
+		searchParamaters.push(`${req.body.mv}`)
+	}
 	if (req.body.instant === 'on'){
 		searchParamaters.push('t%3Ainstant')
 	}
 	if (req.body.sorcery === 'on'){
 		searchParamaters.push('t%3Asorcery')
 	}
+	if (req.body.creature === 'on'){
+		searchParamaters.push('t%3acreature')
+	}
+	if (req.body.artifact === 'on'){
+		searchParamaters.push('t%3Aartifact')
+	}
+	if (req.body.enchantment === 'on'){
+		searchParamaters.push('t%3Aenchantment')
+	}
+	if (req.body.planeswalker === 'on'){
+		searchParamaters.push('t%3Aplaneswalker')
+	}
+	if (req.body.land === 'on'){
+		searchParamaters.push('t%3Aland')
+	}
+	if (req.body.white === 'on'){
+		searchParamaters.push('c%3Awhite')
+	}
+	if (req.body.blue === 'on'){
+		searchParamaters.push('c%3Ablue')
+	}
+	if (req.body.black === 'on'){
+		searchParamaters.push('c%3Ablack')
+	}
+	if (req.body.red === 'on'){
+		searchParamaters.push('c%3Ared')
+	}
+	if (req.body.green === 'on'){
+		searchParamaters.push('c%3Agreen')
+	}
 	console.log(searchParamaters)
-	const searchString = searchParamaters.join('%20or%20')
+	const searchString = searchParamaters.join('%20and%20')
 	console.log(searchString)
+	const searchResults = []
 	fetch(`${apiUrl}f%3Astandard+%28${searchString}%29`)
 	.then(cardObjectsList=>{
 		return cardObjectsList.json()
 	})
 	.then(async cardObjectsList => {
-		const results = []
+		
 		await cardObjectsList.data.forEach( (card) => {
-			
+			searchResults.push(card)
 			console.log(card.name)
 			// console.log(card.image_uris)
 			// console.log(card.cmc)
-			// console.log(card.color_identity)
+			console.log(card.color_identity)
 			// console.log(card.type_line)
 			// Cards.create({
 			// 	scryfallApiId: cardObjectsList.data.id,
@@ -80,13 +119,31 @@ router.put('/results', (req, res) => {
 			
 			// })
 		})
-		res.redirect('/cards/results')
+		// console.log(searchResults)
+		res.render('cards/results', { searchResults })
 	})
 })
+
+// create -> POST route that actually calls the db and makes a new document
+router.post('/', (req, res) => {
+	req.body.owner = req.session.userId
+	// reference to decks
+	Cards.create(req.body)
+		// reference to decks
+		.then(cards => {
+			console.log('this was returned from create', cards)
+			res.redirect('/cards/results')
+		})
+		.catch(error => {
+			res.redirect(`/error?error=${error}`)
+		})
+})
+
 
 router.get('/results', (req, res) => {
 	res.render('cards/results')
 })
+
 
 // // show route
 // router.get('/:id', (req, res) => {

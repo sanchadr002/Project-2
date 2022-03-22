@@ -2,11 +2,18 @@
 {% block content %}
 <div class="container-sm">
     results page
-    {% for result in results %}
-        <ul>
-            <li>result</li>
+    {% for result in searchResults %}
+        <div>
+            {{ result.name }}
+            {{ result.color_identity }}
+            <img src="{{ result.image_uris.small }}">
+            <form action="cards/results" method="POST">
+                <input type="hidden" name="name" value="{{ result.name }}">
+                <input type="submit" value="Add card to deck">
+            </form>
+            
             <!-- button to add to CardsToAdd schema -->
-        </ul>
+        <div>
     {% endfor %}
     <!-- button to return to search page -->
 </div>
