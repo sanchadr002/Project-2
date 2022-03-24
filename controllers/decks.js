@@ -24,7 +24,7 @@ router.use((req, res, next) => {
 // Routes
 
 // index that shows only the user's decks
-router.get('/mine', (req, res) => {
+router.get('/index', (req, res) => {
     // destructure user info from req.session
     const { username, userId, loggedIn } = req.session
 	// reference to decks
