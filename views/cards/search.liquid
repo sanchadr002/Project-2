@@ -100,5 +100,16 @@
             </div>
         <input type="submit" value="Search Cards" class="btn btn-success">
     </form>
+    <div>
+        Your deck so far:
+        {% for card in tempDeck %}
+        {{ card.name }}
+        <img src="{{ card.imageUrl.small }}">
+        {% endfor %}
+    </div>
+    <form action="/decks/index" method="POST">
+        Name your deck:<input type="text" name="deckName">
+        <input type="submit" value="Create Deck" class="btn btn-success">
+    </form>
 </div>
 {% endblock %}

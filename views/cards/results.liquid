@@ -3,15 +3,21 @@
 <div class="container-sm">
     results page
     {% for result in searchResults %}
-        <div>
-            {{ result.name }}
-            {{ result.color_identity }}
+        <div id="results-div">
+            <h5>Card name: {{ result.name }}</h5>
+            <h6>Mana value: {{ result.cmc }}</h6>
+            <h6>Color identity: {{ result.color_identity }}</h6>
+            <h6>Card type: {{ result.type_line }}</h6>
             <img src="{{ result.image_uris.small }}">
-            <form action="cards/results" method="POST">
+            <form action="/cards/search" method="POST">
+                <input type="hidden" name="scryfallApiId" value="{{ result.id }}">
                 <input type="hidden" name="name" value="{{ result.name }}">
+                <input type="hidden" name="imageUrl" value="{{ result.image_uris }}">
+                <input type="hidden" name="mv" value="{{ result.cmc }}">
+                <input type="hidden" name="colorIdentity" value="{{ result.color_identity }}">
+                <input type="hidden" name="cardType" value="{{ result.type_line }}">
                 <input type="submit" value="Add card to deck">
             </form>
-            
             <!-- button to add to CardsToAdd schema -->
         <div>
     {% endfor %}
