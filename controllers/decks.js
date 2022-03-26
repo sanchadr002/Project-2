@@ -42,7 +42,7 @@ router.get('/index', (req, res) => {
 // new route -> GET route that renders our page with the form
 router.get('/new', (req, res) => {
 	const { username, userId, loggedIn } = req.session
-	res.render('decks/new', { username, loggedIn })
+	res.render('decks/new', { tempDeck, username, loggedIn })
 })
 
 // create -> POST route that actually calls the db and makes a new document
@@ -97,7 +97,7 @@ router.get('/:id', (req, res) => {
 	// reference to decks
 	Decks.findById(deckId)
 		// reference to decks
-		.then(decks => {
+		.then(deck => {
             const {username, loggedIn, userId} = req.session
 			// reference to decks
 			res.render('decks/show', { deck, username, loggedIn, userId })

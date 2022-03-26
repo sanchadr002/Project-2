@@ -2,7 +2,6 @@
 require('dotenv').config()
 const { Router } = require('express')
 const express = require('express')
-const res = require('express/lib/response')
 const Cards = require('../models/cards')
 const apiUrl = process.env.scryfallApiUrl
 const fetch = require('node-fetch')
@@ -38,17 +37,7 @@ router.get('/search', (req, res) => {
 	res.render('cards/search', { tempDeck })
 })
 
-router.post('/decks/index', (req, res) => {
-	Decks.create({
-		name: req.body.deckName,
-		cards: tempDeck,
-	})
-	.then(deck => {
-		console.log('this was returned from deck create', deck)
-		res.redirect('/decks/index')
-	})
 
-})
 
 router.put('/results', (req, res) => {
 	console.log(req.body)
@@ -143,6 +132,17 @@ router.post('/search', (req, res) => {
 	})
 })
 
+router.post('/', (req, res) => {
+	Decks.create({
+		name: req.body.deckName,
+		cards: tempDeck,
+	})
+	.then(deck => {
+		console.log('this was returned from deck create', deck)
+		res.redirect('/decks/new')
+	})
+})
+
 // // show route
 // router.get('/:id', (req, res) => {
 // 	const deckId = req.params.id
@@ -173,7 +173,6 @@ router.post('/search', (req, res) => {
 
 // Export the Router
 module.exports = router
-
 
 // ----------CODE GRAVEYARD-------------
 // for (let i = 0; i < 100; i++){

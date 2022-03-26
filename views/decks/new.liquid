@@ -3,7 +3,7 @@
 <div class="container-sm">
     <form action="/decks" method="POST">
         <fieldset>
-            <legend>Create New Deck</legend>
+            
             <label class="form-label">Name:</label>
             <input 
                 type="text" 
@@ -12,11 +12,14 @@
                 class="form-control"
             >
         </fieldset>
-        <!-- add field to display array/schema of cards added to deck creation by the search function -->
+        <div>
+            {% for card in tempDeck %}
+            {{ card.name }}
+            
+            {% endfor %}
+        </div>
         <input type="submit" value="Create New Deck" class="btn btn-success">
     </form>
-    <form>
-        
-    </form>
+    
 </div>
 {% endblock %}
