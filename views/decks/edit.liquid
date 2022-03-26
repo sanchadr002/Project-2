@@ -17,17 +17,6 @@
             <!-- users should be able to remove and add individual cards here somehow -->
             <!-- card references here / FIX ANY EXAMPLE REFS-->
             <label class="form-label">Cards:</label>
-            <div>
-                <ul>
-                {% for name in cardNames %}
-                <li>{{name}}</li>
-                <!-- <li>{{card.imageUrl}}</li> -->
-                <!-- button to add card -->
-                <!-- JS logic should prevent more than 4 of 1 card from being added -->
-                <!-- button to remove card -->
-                {% endfor %}
-                </ul>
-            </div>
             <!-- top card checkbox that tells computer if card is a top card or not
             <label class="form-label">Top Card?</label>
             <input 
@@ -38,6 +27,22 @@
                     checked
                 {% endif %}
             > -->
+    <div>
+        <ul>
+        {% for card in cards %}
+            <li>
+            {{card.cardName}}
+             <form action="/decks?_method=DELETE" method="POST">
+                <input type="submit" value="Delete" class="btn btn-danger">
+            </form>
+            </li>
+            <!-- <li>{{card.imageUrl}}</li> -->
+            <!-- button to add card -->
+            <!-- JS logic should prevent more than 4 of 1 card from being added -->
+            <!-- button to remove card -->
+        {% endfor %}
+        </ul>
+            </div>
         </fieldset>
         <input type="submit" value="Update Deck" class="btn btn-success">
     </form>

@@ -6,7 +6,8 @@ const Cards = require('../models/cards')
 const fetch = require('node-fetch')
 const apiUrl = process.env.scryfallApiUrl
 const tempDeck = []
-const tempDeckCardNames = []
+const mongoose = require('../models/connection')
+// const tempDeckCardNames = []
 
 // Create router
 const router = express.Router()
@@ -137,8 +138,12 @@ router.post('/cards/search', (req, res) => {
 	})
 	.then(card => {
 		console.log('this was returned from create', card)
-		tempDeckCardNames.push(card.name)
-		tempDeck.push(card._id)
+		// tempDeckCardNames.push(card.name)
+		const tempCard = {
+			cardId: card._id,
+			cardName: card.name
+		}
+		tempDeck.push(tempCard)
 		console.log('this is being pushed to tempDeck', card)
 		console.log('this is tempDeck so far', tempDeck)
 		res.redirect('/decks/cards/search')
@@ -174,7 +179,6 @@ router.post('/', (req, res) => {
 	Decks.create({
 		name: req.body.deckName,
 		cards: tempDeck,
-		cardNames: tempDeckCardNames,
 		owner: userId
 	})
 	.then(deck => {
@@ -186,14 +190,15 @@ router.post('/', (req, res) => {
 // edit route -> GET that takes us to the edit form view
 router.get('/:id/edit', (req, res) => {
 	// we need to get the id
+	console.log('this is the req params id', req.params.id)
 	const deckId = req.params.id
 	// reference to decks
 	Decks.findById(deckId)
 		// reference to decks
 		.then(deck => {
-			const cardNames = deck.cardNames
+			const cards = deck.cards
 			// reference to decks
-			res.render('decks/edit', { deck, cardNames })
+			res.render('decks/edit', { deck, cards })
 		})
 		.catch((error) => {
 			res.redirect(`/error?error=${error}`)
@@ -223,7 +228,7 @@ router.get('/:id', (req, res) => {
 	Decks.findById(deckId)
 		// reference to decks
 		.then(deck => {
-			const cardNames = deck.cardNames
+			const cards = deck.cards
 			// deck.cards.forEach(card => {
 			// 	Cards.findById(card)
 			// 	.then(card => {
@@ -231,12 +236,14 @@ router.get('/:id', (req, res) => {
 			// 	})
 			// })
 			
-			res.render('decks/show', { deck, cardNames, username, loggedIn, userId })
+			res.render('decks/show', { cards, deck, username, loggedIn, userId })
 		})
 		.catch((error) => {
 			res.redirect(`/error?error=${error}`)
 		})
 })
+
+
 
 // delete route
 router.delete('/:id', (req, res) => {
