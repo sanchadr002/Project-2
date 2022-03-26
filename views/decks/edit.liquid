@@ -2,7 +2,7 @@
 {% block content %}
 <div class="container-sm">
     <!-- should post to deck view / FIX EXAMPLE REF -->
-    <form action="/decks" method="POST">
+    <form action="/decks/{{ deck.id }}?_method=PUT" method="POST">
         <fieldset>
             <legend>Edit Deck</legend>
             <label class="form-label">Name: </label>
@@ -27,12 +27,16 @@
                     checked
                 {% endif %}
             > -->
+        </fieldset>
+        <input type="submit" value="Update Deck" class="btn btn-success">
+    </form>
     <div>
         <ul>
         {% for card in cards %}
             <li>
             {{card.cardName}}
              <form action="/decks?_method=DELETE" method="POST">
+                <input type="hidden" name="cardId" value="{{ card.cardId }}">
                 <input type="submit" value="Delete" class="btn btn-danger">
             </form>
             </li>
@@ -42,9 +46,6 @@
             <!-- button to remove card -->
         {% endfor %}
         </ul>
-            </div>
-        </fieldset>
-        <input type="submit" value="Update Deck" class="btn btn-success">
-    </form>
+    </div>
 </div>
 {% endblock %}

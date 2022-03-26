@@ -190,7 +190,6 @@ router.post('/', (req, res) => {
 // edit route -> GET that takes us to the edit form view
 router.get('/:id/edit', (req, res) => {
 	// we need to get the id
-	console.log('this is the req params id', req.params.id)
 	const deckId = req.params.id
 	// reference to decks
 	Decks.findById(deckId)
@@ -209,11 +208,11 @@ router.get('/:id/edit', (req, res) => {
 router.put('/:id', (req, res) => {
 	const deckId = req.params.id
 	// reference to decks
-	Decks.findByIdAndUpdate(deckId, req.body, { new: true })
+	Decks.findByIdAndUpdate(deckId, { name: req.body.name }, { new: true })
 		// reference to decks
 		.then(decks => {
 			// reference to decks
-			res.redirect(`/decks/${decks.id}`)
+			res.redirect(`/decks/index`)
 		})
 		.catch((error) => {
 			res.redirect(`/error?error=${error}`)
@@ -243,14 +242,22 @@ router.get('/:id', (req, res) => {
 		})
 })
 
+router.delete('/', (req, res) => {
+	const cardId = req.body.cardId
+	Cards.findByIdAndRemove(cardId)
+		.then(card => {
+			console.log('this is the card being deleted', card)
+			res.redirect('/decks/index')
+		})
+})
 
 
 // delete route
 router.delete('/:id', (req, res) => {
 	const deckId = req.params.id
 	Decks.findByIdAndRemove(deckId)
-		.then(decks => {
-			res.redirect('/decks')
+		.then(deck => {
+			res.redirect('/decks/index')
 		})
 		.catch(error => {
 			res.redirect(`/error?error=${error}`)
