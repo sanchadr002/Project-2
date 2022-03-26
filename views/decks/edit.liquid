@@ -19,8 +19,8 @@
             <label class="form-label">Cards:</label>
             <div>
                 <ul>
-                {% for card in deck %}
-                <li>{{card.name}}</li>
+                {% for name in cardNames %}
+                <li>{{name}}</li>
                 <!-- <li>{{card.imageUrl}}</li> -->
                 <!-- button to add card -->
                 <!-- JS logic should prevent more than 4 of 1 card from being added -->

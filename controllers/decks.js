@@ -190,9 +190,10 @@ router.get('/:id/edit', (req, res) => {
 	// reference to decks
 	Decks.findById(deckId)
 		// reference to decks
-		.then(decks => {
+		.then(deck => {
+			const cardNames = deck.cardNames
 			// reference to decks
-			res.render('decks/edit', { decks })
+			res.render('decks/edit', { deck, cardNames })
 		})
 		.catch((error) => {
 			res.redirect(`/error?error=${error}`)
