@@ -12,7 +12,7 @@
             <form action="/decks/cards/search" method="POST">
                 <input type="hidden" name="scryfallApiId" value="{{ result.id }}">
                 <input type="hidden" name="name" value="{{ result.name }}">
-                <input type="hidden" name="imageUrl" value="{{ result.image_uris }}">
+                <input type="hidden" name="imgUrl" value="{{ result.image_uris.small }}">
                 <input type="hidden" name="mv" value="{{ result.cmc }}">
                 <input type="hidden" name="colorIdentity" value="{{ result.color_identity }}">
                 <input type="hidden" name="cardType" value="{{ result.type_line }}">

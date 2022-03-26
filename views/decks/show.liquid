@@ -7,10 +7,9 @@
         <!-- deck reference -->
         <h6>Cards:</h6>
         <ul>
-        {% for card in deck %}
+        {% for card in cardNames %}
             <li>
-                {{ card.name }}
-                <!-- image url --> 
+                {{ card }} 
             </li>
         {% endfor %}
         </ul>

@@ -6,6 +6,7 @@ const Cards = require('../models/cards')
 const fetch = require('node-fetch')
 const apiUrl = process.env.scryfallApiUrl
 const tempDeck = []
+const tempDeckCardNames = []
 
 // Create router
 const router = express.Router()
@@ -44,17 +45,19 @@ router.get('/index', (req, res) => {
 
 // card search route
 router.get('/cards/search', (req, res) => {
-	res.render('cards/search', { tempDeck })
+	const { username, userId, loggedIn } = req.session
+	res.render('cards/search', { username, loggedIn })
 })
 
 // card results route
 router.get('/cards/results', (req, res) => {
-	res.render('cards/results')
+	const { username, userId, loggedIn } = req.session
+	res.render('cards/results', { username, loggedIn})
 })
 
 // card results PUT route
 router.put('/cards/results', (req, res) => {
-	console.log(req.body)
+	const { username, userId, loggedIn } = req.session
 	const searchParamaters = []
 	if (req.body.name !== ''){
 		req.body.name = req.body.name.replace(' ', '%20')
@@ -116,7 +119,7 @@ router.put('/cards/results', (req, res) => {
 			searchResults.push(card)
 		})
 		// console.log(searchResults)
-		res.render('cards/results', { searchResults })
+		res.render('cards/results', { searchResults, userId, loggedIn })
 	})
 })
 
@@ -127,13 +130,14 @@ router.post('/cards/search', (req, res) => {
 	Cards.create({
 		scryfallApiId: req.body.scryfallApiId,
 		name: req.body.name,
-		imageUrl: req.body.imageUrl,
+		imageUrl: req.body.imgUrl,
 		mv: req.body.mv,
 		colorIdentity: req.body.colorIdentity,
 		cardType: req.body.cardType
 	})
 	.then(card => {
 		console.log('this was returned from create', card)
+		tempDeckCardNames.push(card.name)
 		tempDeck.push(card._id)
 		console.log('this is being pushed to tempDeck', card)
 		console.log('this is tempDeck so far', tempDeck)
@@ -147,22 +151,36 @@ router.post('/cards/search', (req, res) => {
 // new route -> GET route that renders our page with the form
 router.get('/new', (req, res) => {
 	const { username, userId, loggedIn } = req.session
-	res.render('decks/new', { tempDeck, username, loggedIn })
+	res.render('decks/new', { username, loggedIn })
 })
 
 // create -> POST route that actually calls the db and makes a new document
+// router.post('/', (req, res) => {
+// 	req.body.owner = req.session.userId
+// 	// reference to decks
+// 	Decks.create(req.body)
+// 		// reference to decks
+// 		.then(decks => {
+// 			console.log('this was returned from create', decks)
+// 			res.redirect('/decks')
+// 		})
+// 		.catch(error => {
+// 			res.redirect(`/error?error=${error}`)
+// 		})
+// })
+
 router.post('/', (req, res) => {
-	req.body.owner = req.session.userId
-	// reference to decks
-	Decks.create(req.body)
-		// reference to decks
-		.then(decks => {
-			console.log('this was returned from create', decks)
-			res.redirect('/decks')
-		})
-		.catch(error => {
-			res.redirect(`/error?error=${error}`)
-		})
+	const { username, userId, loggedIn } = req.session
+	Decks.create({
+		name: req.body.deckName,
+		cards: tempDeck,
+		cardNames: tempDeckCardNames,
+		owner: userId
+	})
+	.then(deck => {
+		console.log('this was returned from deck create', deck)
+		res.render('index', { username, userId, loggedIn } )
+	})
 })
 
 // edit route -> GET that takes us to the edit form view
@@ -199,13 +217,20 @@ router.put('/:id', (req, res) => {
 // show route
 router.get('/:id', (req, res) => {
 	const deckId = req.params.id
+	const {username, loggedIn, userId} = req.session
 	// reference to decks
 	Decks.findById(deckId)
 		// reference to decks
 		.then(deck => {
-            const {username, loggedIn, userId} = req.session
-			// reference to decks
-			res.render('decks/show', { deck, username, loggedIn, userId })
+			const cardNames = deck.cardNames
+			// deck.cards.forEach(card => {
+			// 	Cards.findById(card)
+			// 	.then(card => {
+
+			// 	})
+			// })
+			
+			res.render('decks/show', { deck, cardNames, username, loggedIn, userId })
 		})
 		.catch((error) => {
 			res.redirect(`/error?error=${error}`)

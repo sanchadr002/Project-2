@@ -104,10 +104,10 @@
         Your deck so far:
         {% for card in tempDeck %}
         {{ card.name }}
-        <img src="{{ card.imageUrl.small }}">
+        <img src="{{ card.imageUrl }}">
         {% endfor %}
     </div>
-    <form action="/" method="POST">
+    <form action="/decks" method="POST">
         Name your deck:<input type="text" name="deckName">
         <input type="submit" value="Create Deck" class="btn btn-success">
     </form>
