@@ -2,7 +2,10 @@
 require('dotenv').config()
 const express = require('express')
 const Decks = require('../models/decks')
-
+const Cards = require('../models/cards')
+const fetch = require('node-fetch')
+const apiUrl = process.env.scryfallApiUrl
+const tempDeck = []
 
 // Create router
 const router = express.Router()
@@ -37,6 +40,108 @@ router.get('/index', (req, res) => {
 		.catch(error => {
 			res.redirect(`/error?error=${error}`)
 		})
+})
+
+// card search route
+router.get('/cards/search', (req, res) => {
+	res.render('cards/search', { tempDeck })
+})
+
+// card results route
+router.get('/cards/results', (req, res) => {
+	res.render('cards/results')
+})
+
+// card results PUT route
+router.put('/cards/results', (req, res) => {
+	console.log(req.body)
+	const searchParamaters = []
+	if (req.body.name !== ''){
+		req.body.name = req.body.name.replace(' ', '%20')
+		req.body.name = req.body.name.replace('\'', '%27')
+		searchParamaters.push(`${req.body.name}`)
+	}
+	if (req.body.mv !== ''){
+		searchParamaters.push(`${req.body.mv}`)
+	}
+	if (req.body.instant === 'on'){
+		searchParamaters.push('t%3Ainstant')
+	}
+	if (req.body.sorcery === 'on'){
+		searchParamaters.push('t%3Asorcery')
+	}
+	if (req.body.creature === 'on'){
+		searchParamaters.push('t%3acreature')
+	}
+	if (req.body.artifact === 'on'){
+		searchParamaters.push('t%3Aartifact')
+	}
+	if (req.body.enchantment === 'on'){
+		searchParamaters.push('t%3Aenchantment')
+	}
+	if (req.body.planeswalker === 'on'){
+		searchParamaters.push('t%3Aplaneswalker')
+	}
+	if (req.body.land === 'on'){
+		searchParamaters.push('t%3Aland')
+	}
+	if (req.body.white === 'on'){
+		searchParamaters.push('c%3Awhite')
+	}
+	if (req.body.blue === 'on'){
+		searchParamaters.push('c%3Ablue')
+	}
+	if (req.body.black === 'on'){
+		searchParamaters.push('c%3Ablack')
+	}
+	if (req.body.red === 'on'){
+		searchParamaters.push('c%3Ared')
+	}
+	if (req.body.green === 'on'){
+		searchParamaters.push('c%3Agreen')
+	}
+
+	console.log(searchParamaters)
+	const searchString = searchParamaters.join('%20and%20')
+	console.log(searchString)
+	const searchResults = []
+
+	fetch(`${apiUrl}f%3Astandard+%28${searchString}%29`)
+	.then(cardObjectsList=>{
+		return cardObjectsList.json()
+	})
+	.then(async cardObjectsList => {
+		
+		await cardObjectsList.data.forEach( (card) => {
+			searchResults.push(card)
+		})
+		// console.log(searchResults)
+		res.render('cards/results', { searchResults })
+	})
+})
+
+// card POST route
+// create -> POST route that actually calls the db and makes a new document
+router.post('/cards/search', (req, res) => {
+	req.body.owner = req.session.userId
+	Cards.create({
+		scryfallApiId: req.body.scryfallApiId,
+		name: req.body.name,
+		imageUrl: req.body.imageUrl,
+		mv: req.body.mv,
+		colorIdentity: req.body.colorIdentity,
+		cardType: req.body.cardType
+	})
+	.then(card => {
+		console.log('this was returned from create', card)
+		tempDeck.push(card._id)
+		console.log('this is being pushed to tempDeck', card)
+		console.log('this is tempDeck so far', tempDeck)
+		res.redirect('/decks/cards/search')
+	})
+	.catch(error => {
+		res.redirect(`/error?error=${error}`)
+	})
 })
 
 // new route -> GET route that renders our page with the form

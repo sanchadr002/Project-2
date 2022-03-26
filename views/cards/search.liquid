@@ -1,7 +1,7 @@
 {% layout 'layout.liquid' %}
 {% block content %}
 <div class="container-sm">
-    <form action="/cards/results?_method=PUT" method="POST">
+    <form action="/decks/cards/results?_method=PUT" method="POST">
         <label class="form-label">Cards:</label>
             <div id="card-search-div" class="container-sm">
                 <label class="form-label">Card name:</label>
@@ -107,7 +107,7 @@
         <img src="{{ card.imageUrl.small }}">
         {% endfor %}
     </div>
-    <form action="/cards" method="POST">
+    <form action="/" method="POST">
         Name your deck:<input type="text" name="deckName">
         <input type="submit" value="Create Deck" class="btn btn-success">
     </form>

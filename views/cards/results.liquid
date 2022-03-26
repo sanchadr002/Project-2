@@ -9,7 +9,7 @@
             <h6>Color identity: {{ result.color_identity }}</h6>
             <h6>Card type: {{ result.type_line }}</h6>
             <img src="{{ result.image_uris.small }}">
-            <form action="/cards/search" method="POST">
+            <form action="/decks/cards/search" method="POST">
                 <input type="hidden" name="scryfallApiId" value="{{ result.id }}">
                 <input type="hidden" name="name" value="{{ result.name }}">
                 <input type="hidden" name="imageUrl" value="{{ result.image_uris }}">
