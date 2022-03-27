@@ -103,8 +103,7 @@
     <div>
         Your deck so far:
         {% for card in tempDeck %}
-        {{ card.name }}
-        <img src="{{ card.imageUrl }}">
+        {{ card.cardName }}
         {% endfor %}
     </div>
     <form action="/decks" method="POST">

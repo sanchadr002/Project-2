@@ -1,3 +1,5 @@
+// ----------------------- THIS PAGE IS DEFUNCT AFTER MERGING CARDS AND DECKS CONTROLLERS
+
 // // Import Dependencies
 // require('dotenv').config()
 // const { Router } = require('express')
@@ -173,35 +175,35 @@
 // // Export the Router
 // module.exports = router
 
-// ----------CODE GRAVEYARD-------------
-// for (let i = 0; i < 100; i++){
-		// 	Cards.create({
-		// 		scryfallApiId: cardObjectsList.data[i].id,
-		// 		name: cardObjectsList.data[i].name,
-		// 		mv: cardObjectsList.data[i].cmc,
-		// 		colorIdentity: cardObjectsList.data[i].color_identity.join(''),
-		// 		cardType: cardObjectsList.data[i].type_line,
-		// 		// owner: User
-		// 		imageUrl: cardObjectsList.data[i].image_uris.small,
-		// 	})
-		// 	console.log('card is being created')
-		// }
-		// forEach(cardObjectsList.data, Cards.create({
-		// 		scryfallApiId: cardObjectsList.data.id.toString(),
-		// 		name: cardObjectsList.data.name,
-		// 		mv: cardObjectsList.data.cmc,
-		// 		colorIdentity: cardObjectsList.data.color_identity.join(''),
-		// 		cardType: cardObjectsList.data.type_line,
-		// 		// owner: User
-		// 		imageUrl: cardObjectsList.data.image_uris.small,
-		// 	})
-		// )
-		// Cards.create({
-		// 	scryfallApiId: cardObjectsList.data.id,
-		// 	name: cardObjectsList.data.name,
-		// 	mv: cardObjectsList.data.cmc,
-		// 	colorIdentity: cardObjectsList.data.color_identity.join(''),
-		// 	cardType: cardObjectsList.data.type_line,
-		// // 		// owner: User
-		// 	imageUrl: cardObjectsList.data.image_uris.small,
-		// })
+// // ----------CODE GRAVEYARD-------------
+// // for (let i = 0; i < 100; i++){
+// 		// 	Cards.create({
+// 		// 		scryfallApiId: cardObjectsList.data[i].id,
+// 		// 		name: cardObjectsList.data[i].name,
+// 		// 		mv: cardObjectsList.data[i].cmc,
+// 		// 		colorIdentity: cardObjectsList.data[i].color_identity.join(''),
+// 		// 		cardType: cardObjectsList.data[i].type_line,
+// 		// 		// owner: User
+// 		// 		imageUrl: cardObjectsList.data[i].image_uris.small,
+// 		// 	})
+// 		// 	console.log('card is being created')
+// 		// }
+// 		// forEach(cardObjectsList.data, Cards.create({
+// 		// 		scryfallApiId: cardObjectsList.data.id.toString(),
+// 		// 		name: cardObjectsList.data.name,
+// 		// 		mv: cardObjectsList.data.cmc,
+// 		// 		colorIdentity: cardObjectsList.data.color_identity.join(''),
+// 		// 		cardType: cardObjectsList.data.type_line,
+// 		// 		// owner: User
+// 		// 		imageUrl: cardObjectsList.data.image_uris.small,
+// 		// 	})
+// 		// )
+// 		// Cards.create({
+// 		// 	scryfallApiId: cardObjectsList.data.id,
+// 		// 	name: cardObjectsList.data.name,
+// 		// 	mv: cardObjectsList.data.cmc,
+// 		// 	colorIdentity: cardObjectsList.data.color_identity.join(''),
+// 		// 	cardType: cardObjectsList.data.type_line,
+// 		// // 		// owner: User
+// 		// 	imageUrl: cardObjectsList.data.image_uris.small,
+// 		// })

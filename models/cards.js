@@ -7,8 +7,6 @@ const User = require('./user')
 // destructure the schema and model constructors from mongoose
 const { Schema, model } = mongoose
 
-// figure out way to insert references into card schema
-// program should pull necessary information from the API and fill out the appropriate fields
 const cardSchema = new Schema(
 	{
 		scryfallApiId: { type: String },
@@ -17,11 +15,10 @@ const cardSchema = new Schema(
 		mv: { type: String },
         colorIdentity: { type: String },
         cardType: { type: String },
+
+		// topCard for later use
 		// topCard: { type: Boolean },
-		// owner: {
-		// 	type: Schema.Types.ObjectID,
-		// 	ref: 'User',
-		// },
+		
         
 	},
 	{ timestamps: true }

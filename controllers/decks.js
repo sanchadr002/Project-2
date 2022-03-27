@@ -5,9 +5,9 @@ const Decks = require('../models/decks')
 const Cards = require('../models/cards')
 const fetch = require('node-fetch')
 const apiUrl = process.env.scryfallApiUrl
+
+// create array to hold cards while user is searching and adding cards to deck
 const tempDeck = []
-const mongoose = require('../models/connection')
-// const tempDeckCardNames = []
 
 // Create router
 const router = express.Router()
@@ -28,15 +28,12 @@ router.use((req, res, next) => {
 
 // Routes
 
-// index that shows only the user's decks
+// index that shows user's decks
 router.get('/index', (req, res) => {
     // destructure user info from req.session
     const { username, userId, loggedIn } = req.session
-	// reference to decks
 	Decks.find({ owner: userId })
-		// reference to decks
 		.then(decks => {
-			// reference to decks
 			res.render('decks/index', { decks, username, loggedIn })
 		})
 		.catch(error => {
@@ -59,7 +56,11 @@ router.get('/cards/results', (req, res) => {
 // card results PUT route
 router.put('/cards/results', (req, res) => {
 	const { username, userId, loggedIn } = req.session
+
+	// create array to push search paramaters into
 	const searchParamaters = []
+
+	// create and push paramaters based on user input
 	if (req.body.name !== ''){
 		req.body.name = req.body.name.replace(' ', '%20')
 		req.body.name = req.body.name.replace('\'', '%27')
@@ -105,21 +106,23 @@ router.put('/cards/results', (req, res) => {
 		searchParamaters.push('c%3Agreen')
 	}
 
-	console.log(searchParamaters)
+	// convert paramaters array into a string and join them with proper percent encoding
 	const searchString = searchParamaters.join('%20and%20')
-	console.log(searchString)
+
+	// create array to contain search results
 	const searchResults = []
 
+	// search cards based on string created on user input
 	fetch(`${apiUrl}f%3Astandard+%28${searchString}%29`)
 	.then(cardObjectsList=>{
 		return cardObjectsList.json()
 	})
 	.then(async cardObjectsList => {
 		
+		// access each card in the data array and push its information to the searchResults array
 		await cardObjectsList.data.forEach( (card) => {
 			searchResults.push(card)
 		})
-		// console.log(searchResults)
 		res.render('cards/results', { searchResults, userId, loggedIn })
 	})
 })
@@ -137,16 +140,14 @@ router.post('/cards/search', (req, res) => {
 		cardType: req.body.cardType
 	})
 	.then(card => {
-		console.log('this was returned from create', card)
-		// tempDeckCardNames.push(card.name)
+
+		// create object to hold card data until user creates a deck
 		const tempCard = {
 			cardId: card._id,
 			cardName: card.name
 		}
 		tempDeck.push(tempCard)
-		console.log('this is being pushed to tempDeck', card)
-		console.log('this is tempDeck so far', tempDeck)
-		res.redirect('/decks/cards/search')
+		res.render('cards/search', { tempDeck })
 	})
 	.catch(error => {
 		res.redirect(`/error?error=${error}`)
@@ -156,24 +157,10 @@ router.post('/cards/search', (req, res) => {
 // new route -> GET route that renders our page with the form
 router.get('/new', (req, res) => {
 	const { username, userId, loggedIn } = req.session
-	res.render('decks/new', { username, loggedIn })
+	res.render('/cards/search', { username, loggedIn })
 })
 
-// create -> POST route that actually calls the db and makes a new document
-// router.post('/', (req, res) => {
-// 	req.body.owner = req.session.userId
-// 	// reference to decks
-// 	Decks.create(req.body)
-// 		// reference to decks
-// 		.then(decks => {
-// 			console.log('this was returned from create', decks)
-// 			res.redirect('/decks')
-// 		})
-// 		.catch(error => {
-// 			res.redirect(`/error?error=${error}`)
-// 		})
-// })
-
+// deck creation route
 router.post('/', (req, res) => {
 	const { username, userId, loggedIn } = req.session
 	Decks.create({
@@ -189,14 +176,10 @@ router.post('/', (req, res) => {
 
 // edit route -> GET that takes us to the edit form view
 router.get('/:id/edit', (req, res) => {
-	// we need to get the id
 	const deckId = req.params.id
-	// reference to decks
 	Decks.findById(deckId)
-		// reference to decks
 		.then(deck => {
 			const cards = deck.cards
-			// reference to decks
 			res.render('decks/edit', { deck, cards })
 		})
 		.catch((error) => {
@@ -207,11 +190,8 @@ router.get('/:id/edit', (req, res) => {
 // update route
 router.put('/:id', (req, res) => {
 	const deckId = req.params.id
-	// reference to decks
 	Decks.findByIdAndUpdate(deckId, { name: req.body.name }, { new: true })
-		// reference to decks
 		.then(decks => {
-			// reference to decks
 			res.redirect(`/decks/index`)
 		})
 		.catch((error) => {
@@ -223,18 +203,9 @@ router.put('/:id', (req, res) => {
 router.get('/:id', (req, res) => {
 	const deckId = req.params.id
 	const {username, loggedIn, userId} = req.session
-	// reference to decks
 	Decks.findById(deckId)
-		// reference to decks
 		.then(deck => {
 			const cards = deck.cards
-			// deck.cards.forEach(card => {
-			// 	Cards.findById(card)
-			// 	.then(card => {
-
-			// 	})
-			// })
-			
 			res.render('decks/show', { cards, deck, username, loggedIn, userId })
 		})
 		.catch((error) => {
@@ -242,6 +213,8 @@ router.get('/:id', (req, res) => {
 		})
 })
 
+// delete route for removing cards in decks
+// still non-functional
 router.delete('/', (req, res) => {
 	const cardId = req.body.cardId
 	Cards.findByIdAndRemove(cardId)
@@ -252,7 +225,8 @@ router.delete('/', (req, res) => {
 })
 
 
-// delete route
+// deck delete route
+
 router.delete('/:id', (req, res) => {
 	const deckId = req.params.id
 	Decks.findByIdAndRemove(deckId)

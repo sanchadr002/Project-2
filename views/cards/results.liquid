@@ -18,9 +18,8 @@
                 <input type="hidden" name="cardType" value="{{ result.type_line }}">
                 <input type="submit" value="Add card to deck">
             </form>
-            <!-- button to add to CardsToAdd schema -->
         <div>
     {% endfor %}
-    <!-- button to return to search page -->
+    <a href="/decks/cards/search" class="btn btn-primary">Return to search page</a>
 </div>
 {% endblock %}
