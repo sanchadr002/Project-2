@@ -6,7 +6,7 @@ const mongoose = require('mongoose')
 // connect to the database
 // local database connection --> process.env.DATABASE_URL
 // remote database connection --> process.env.MONGODB_URI
-mongoose.connect(process.env.DATABASE_URL, {
+mongoose.connect(process.env.MONGODB_URI, {
 	useUnifiedTopology: true,
 	useNewUrlParser: true,
 })
@@ -16,7 +16,7 @@ const db = mongoose.connection
 
 // create some notification
 // mongoose.connection.host mongoose.connection.port
-db.on('open', () => console.log('You are connected to mongo'))
+db.on('open', () => console.log('You are connected to mongo', db.host))
 db.on('close', () => console.log('You are disconnected from mongo'))
 db.on('error', (error) => console.log(error))
 
