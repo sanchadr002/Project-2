@@ -16,7 +16,7 @@ const db = mongoose.connection
 
 // create some notification
 // mongoose.connection.host mongoose.connection.port
-db.on('open', () => console.log('You are connected to mongo', db.host))
+db.on('open', () => console.log('You are connected to mongo', db.host, db.port))
 db.on('close', () => console.log('You are disconnected from mongo'))
 db.on('error', (error) => console.log(error))
 
