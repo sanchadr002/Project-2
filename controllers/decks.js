@@ -140,13 +140,7 @@ router.post('/cards/search', (req, res) => {
 		cardType: req.body.cardType
 	})
 	.then(card => {
-
-		// create object to hold card data until user creates a deck
-		const tempCard = {
-			cardId: card._id,
-			cardName: card.name
-		}
-		tempDeck.push(tempCard)
+		tempDeck.push(card)
 		res.render('cards/search', { tempDeck })
 	})
 	.catch(error => {
@@ -169,6 +163,12 @@ router.post('/', (req, res) => {
 		owner: userId
 	})
 	.then(deck => {
+		// Decks.findByIdAndUpdate(deck._id)
+		// .then(deck => {
+		// 	tempDeck.forEach(card => {
+		// 		deck.cards.push(card)
+		// 	})
+		// })
 		console.log('this was returned from deck create', deck)
 		res.render('index', { username, userId, loggedIn } )
 	})
@@ -205,7 +205,15 @@ router.get('/:id', (req, res) => {
 	const {username, loggedIn, userId} = req.session
 	Decks.findById(deckId)
 		.then(deck => {
-			const cards = deck.cards
+			let cards = []
+			deck.cards.forEach(card => {
+				Cards.findById(card._id)
+				.then(card => {
+					cards.push(card.name)
+				})
+				.catch(err => console.log(err))
+			})
+			console.log('this is deck', deck)
 			res.render('decks/show', { cards, deck, username, loggedIn, userId })
 		})
 		.catch((error) => {
@@ -215,7 +223,7 @@ router.get('/:id', (req, res) => {
 
 // delete route for removing cards in decks
 // still non-functional
-router.delete('/', (req, res) => {
+router.delete('/decks', (req, res) => {
 	const cardId = req.body.cardId
 	Cards.findByIdAndRemove(cardId)
 		.then(card => {

@@ -20,7 +20,7 @@
         <ul>
         {% for card in cards %}
             <li>
-            {{card.cardName}}
+            {{card.name}}
              <form action="/decks?_method=DELETE" method="POST">
                 <input type="hidden" name="cardId" value="{{ card.cardId }}">
                 <input type="submit" value="Delete" class="btn btn-danger">

@@ -15,11 +15,8 @@ const cardSchema = new Schema(
 		mv: { type: String },
         colorIdentity: { type: String },
         cardType: { type: String },
-
 		// topCard for later use
 		// topCard: { type: Boolean },
-		
-        
 	},
 	{ timestamps: true }
 )

@@ -9,14 +9,17 @@ const Cards = require('./cards')
 const { Schema, model } = mongoose
 
 const decksSchema = new Schema(
-	[{
+	{
 		name: { type: String },
-		cards: { type: Array },
+		cards: [{ 
+			type: Schema.Types.ObjectId,
+			ref: 'Cards'
+		 }],
 		owner: {
-			type: Schema.Types.ObjectID,
+			type: Schema.Types.ObjectId,
 			ref: 'User',
 		}
-	}],
+	},
 	{ timestamps: true }
 )
 
