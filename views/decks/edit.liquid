@@ -18,11 +18,11 @@
     </form>
     <div>
         <ul>
-        {% for card in cards %}
+        {% for card in arrCardObjects %}
             <li>
             {{card.name}}
-             <form action="/decks?_method=DELETE" method="POST">
-                <input type="hidden" name="cardId" value="{{ card.cardId }}">
+             <form action="/decks/decks?_method=DELETE" method="POST">
+                <input type="hidden" name="cardId" value="{{ card._id }}">
                 <input type="submit" value="Delete" class="btn btn-danger">
             </form>
             </li>

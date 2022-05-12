@@ -179,8 +179,16 @@ router.get('/:id/edit', (req, res) => {
 	const deckId = req.params.id
 	Decks.findById(deckId)
 		.then(deck => {
-			const cards = deck.cards
-			res.render('decks/edit', { deck, cards })
+			const cardsIds = deck.cards
+			let arrCardObjects = []
+			cardsIds.forEach(cardId => {
+				Cards.findById(cardId)
+				.then(card => {
+					arrCardObjects.push(card)
+				})
+				.catch(err => console.log(err))
+			})
+			res.render('decks/edit', { deck, arrCardObjects })
 		})
 		.catch((error) => {
 			res.redirect(`/error?error=${error}`)
@@ -225,6 +233,7 @@ router.get('/:id', (req, res) => {
 // still non-functional
 router.delete('/decks', (req, res) => {
 	const cardId = req.body.cardId
+	console.log('this is req in line 236', req)
 	Cards.findByIdAndRemove(cardId)
 		.then(card => {
 			console.log('this is the card being deleted', card)
