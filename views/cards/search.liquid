@@ -1,61 +1,82 @@
 {% layout 'layout.liquid' %}
 {% block content %}
 <div class="container-sm">
-    <form action="/decks/cards/results?_method=PUT" method="POST">
+    <form class="form-horizontal" action="/decks/cards/results?_method=PUT" method="POST">
         <label class="form-label">Cards:</label>
-            <div id="card-search-div" class="container-sm">
-                <label class="form-label">Card name:</label>
-                <input 
-                    type="search" 
-                    name="name" 
-                    placeholder="search card name" 
-                    id="name-search"
-                ><br/>
-                <label class="form-label">Mana value:</label>
-                <input 
-                    type="number"
-                    name="mv"
-                    placeholder="choose mana value"
-                    id="mv-search"
-                ><br/>
-                <div id="card-type-div" class="container-sm">
-                    <label class="form-label">Card type:</label><br/>
+            <div class="form-group">
+                <label for="name-search" class="col-sm-2 control-label">Card name: </label>
+                <div class="col-sm-10">
+                    <input 
+                        class="form-control"
+                        type="search" 
+                        name="name" 
+                        placeholder="search card name" 
+                        id="name-search"
+                    ><br/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="mv-search" class="col-sm-2 control-label">Mana value:</label>
+                <div class="col-sm-10">
+                    <input 
+                        class="form-control"
+                        type="number"
+                        name="mv"
+                        placeholder="choose mana value"
+                        id="mv-search"
+                    ><br/>
+                </div>
+            </div>
+                <label class="form-label">Card type: </label><br/>
+                <div class="checkbox">
                     Instant
                     <input
                         type="checkbox"
                         name="instant"
                         id="instant-box"
                     ><br/>
+                </div>
+                <div class="checkbox">
                     Sorcery
                     <input
                         type="checkbox"
                         name="sorcery"
                         id="instant-box"
                     ><br/>
+                </div>
+                <div class="checkbox">
                     Creature
                     <input
                         type="checkbox"
                         name="creature"
                         id="creature-box"
                     ><br/>
+                </div>
+                <div class="checkbox">
                     Artifact
                     <input
                         type="checkbox"
                         name="artifact"
                         id="artifact-box"
                     ><br/>
+                </div>
+                <div class="checkbox">
                     Enchantment
                     <input
                         type="checkbox"
                         name="enchantment"
                         id="enchantment-box"
                     ><br/>
+                </div>
+                <div class="checkbox">
                     Planeswalker
                     <input
                         type="checkbox"
                         name="planeswalker"
                         id="pw-box"
                     ><br/>
+                </div>
+                <div class="checkbox">
                     Land
                     <input
                         type="checkbox"
@@ -64,50 +85,60 @@
                     ><br/>
                     <br/>
                 </div>
-                <div id="mana-color-div" class="container-sm">
-                    <label class="form-label">Mana Color:</label><br/>
+                <label class="form-label">Mana Color:</label><br/>
+                <div class="checkbox">
                     White
                     <input
                         type="checkbox"
                         name="white"
                         id="white-box"
                     >
+                </div>
+                <div class="checkbox">
                     Blue
                     <input
                         type="checkbox"
                         name="blue"
                         id="blue-box"
                     >
+                </div>
+                <div class="checkbox">
                     Black
                     <input
                         type="checkbox"
                         name="black"
                         id="black-box"
                     >
+                </div>
+                <div class="checkbox">
                     Red
                     <input
                         type="checkbox"
                         name="red"
                         id="black-box"
                     >
+                </div>
+                <div class="checkbox">
                     Green
                     <input
                         type="checkbox"
                         name="green"
                         id="green-box"
                     >
-                </div>
-            </div>
+                </div><br/>
         <input type="submit" value="Search Cards" class="btn btn-success">
-    </form>
+    </form><br/>
     <div>
         Your deck so far:
         {% for card in tempDeck %}
-        {{ card.name }}
+        {{ card.name }}<br/>
         {% endfor %}
-    </div>
-    <form action="/decks" method="POST">
-        Name your deck:<input type="text" name="deckName">
+    </div><br/>
+    <form class="form-horizontal" action="/decks" method="POST">
+        Name your deck: 
+        <div class="col-sm-10">
+            <input class="form-control" type="text" name="deckName"><br/>
+        </div>
         <input type="submit" value="Create Deck" class="btn btn-success">
     </form>
 </div>
