@@ -1,11 +1,11 @@
 {% layout 'layout.liquid'%}
 {% block content %}
-<div>
+<div class="container-sm">
     <h2 class="display-6">All Decks</h2>
     <div class="row">
-    <ul>
+    <ul class="list-group">
         {% for deck in decks %}
-        <li>
+        <li class="list-group-item">
             <a href="/decks/{{ deck._id }}" class="btn btn-info">
                 {{ deck.name }}
             </a>
