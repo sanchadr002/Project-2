@@ -1,22 +1,30 @@
 {% layout 'layout.liquid' %}
 {% block content %}
 <div class="container-md">
-    <article>
+
         <h2>{{ deck.name }}</h2>
         <h6>Cards:</h6>
-        <ul>
+
         {% for card in cards %}
-            <li>
-                {{ card }} 
-            </li>
+            <div class="card" style="width:18rem">
+                <div class="card-header">
+                    {{card.name}}
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Mana Value: {{card.mv}}</li>
+                    <li class="list-group-item">Color Identity: {{card.colorIdentity}}</li>
+                    <li class="list-group-item">Card Type: {{card.cardType}}</li>
+
+                </ul>
+            </div><br/>
         {% endfor %}
-        </ul>
+
         <div class="btn-group">
             <a href="/decks/{{ deck._id }}/edit" class="btn btn-primary">Edit</a>
             <form action="/decks/{{ deck.id }}?_method=DELETE" method="POST">
                 <input type="submit" value="Delete" class="btn btn-danger">
             </form>
         </div>
-    </article>
+
 </div>
 {% endblock %}
