@@ -1,9 +1,9 @@
 {% layout 'layout.liquid' %}
 {% block content %}
 <div class="container-sm">
+    <h2 class="display-6">Edit Deck</h2>
     <form action="/decks/{{ deck.id }}?_method=PUT" method="POST">
         <fieldset>
-            <legend>Edit Deck</legend>
             <label class="form-label">Name: </label>
             <input 
                 type="text" 
@@ -12,22 +12,30 @@
                 value="{{ deck.name }}"
                 class="form-control"
             >
-            <label class="form-label">Cards:</label>
         </fieldset>
         <input type="submit" value="Update Deck" class="btn btn-success">
-    </form>
+    </form><br/>
+    <label class="form-label">Cards:</label>
     <div>
-        <ul>
         {% for card in arrCardObjects %}
-            <li>
-            {{card.name}}
-             <form action="/decks/decks?_method=DELETE" method="POST">
-                <input type="hidden" name="cardId" value="{{ card._id }}">
-                <input type="submit" value="Delete" class="btn btn-danger">
-            </form>
-            </li>
+        <div class="card" style="width:18rem">
+            <div class="card-header">
+                {{card.name}}
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Mana Value: {{card.mv}}</li>
+                <li class="list-group-item">Color Identity: {{card.colorIdentity}}</li>
+                <li class="list-group-item">Card Type: {{card.cardType}}</li>
+            </ul>
+            <div class="card-footer">
+                <form action="/decks/decks?_method=DELETE" method="POST">
+                   <input type="hidden" name="cardId" value="{{ card._id }}">
+                   <input type="submit" value="Delete" class="btn btn-danger">
+               </form>
+            </div>
+        </div><br/>
         {% endfor %}
-        </ul>
+        
     </div>
 </div>
 {% endblock %}
