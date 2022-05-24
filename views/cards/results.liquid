@@ -1,24 +1,33 @@
 {% layout 'layout.liquid' %}
 {% block content %}
 <div class="container-sm">
-    results page
+    <h2 class="display-6">Search Results</h2><br/>
     {% for result in searchResults %}
         <div id="results-div">
-            <h5>Card name: {{ result.name }}</h5>
-            <h6>Mana value: {{ result.cmc }}</h6>
-            <h6>Color identity: {{ result.color_identity }}</h6>
-            <h6>Card type: {{ result.type_line }}</h6>
-            <img src="{{ result.image_uris.small }}">
-            <form action="/decks/cards/search" method="POST">
-                <input type="hidden" name="scryfallApiId" value="{{ result.id }}">
-                <input type="hidden" name="name" value="{{ result.name }}">
-                <input type="hidden" name="imgUrl" value="{{ result.image_uris.small }}">
-                <input type="hidden" name="mv" value="{{ result.cmc }}">
-                <input type="hidden" name="colorIdentity" value="{{ result.color_identity }}">
-                <input type="hidden" name="cardType" value="{{ result.type_line }}">
-                <input type="submit" value="Add card to deck">
-            </form>
-        <div>
+            <div class="card" style="width:18rem;">
+                <img class="card-image-bottom img-fluid" src="{{ result.image_uris.normal }}">
+                <div class="card-header">
+                    {{result.name}}
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Mana Value: {{result.cmc}}</li>
+                    <li class="list-group-item">Color Identity: {{result.color_identity}}</li>
+                    <li class="list-group-item">Card Type: {{result.type_line}}</li>
+                </ul>
+                <div class="card-footer">
+                    <form action="/decks/cards/search" method="POST">
+                        <input type="hidden" name="scryfallApiId" value="{{ result.id }}">
+                        <input type="hidden" name="name" value="{{ result.name }}">
+                        <input type="hidden" name="imgUrl" value="{{ result.image_uris.small }}">
+                        <input type="hidden" name="mv" value="{{ result.cmc }}">
+                        <input type="hidden" name="colorIdentity" value="{{ result.color_identity }}">
+                        <input type="hidden" name="cardType" value="{{ result.type_line }}">
+                        <input type="submit" value="Add card to deck">
+                    </form>
+                </div>
+            </div><br/>
+            <br/>
+        <div><br/>
     {% endfor %}
     <a href="/decks/cards/search" class="btn btn-primary">Return to search page</a>
 </div>

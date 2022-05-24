@@ -177,6 +177,7 @@ router.post('/', (req, res) => {
 // edit route -> GET that takes us to the edit form view
 router.get('/:id/edit', (req, res) => {
 	const deckId = req.params.id
+	const { username, userId, loggedIn } = req.session
 	Decks.findById(deckId)
 		.then(deck => {
 			const cardsIds = deck.cards
@@ -188,7 +189,7 @@ router.get('/:id/edit', (req, res) => {
 				})
 				.catch(err => console.log(err))
 			})
-			res.render('decks/edit', { deck, arrCardObjects })
+			res.render('decks/edit', { deck, arrCardObjects, loggedIn })
 		})
 		.catch((error) => {
 			res.redirect(`/error?error=${error}`)
@@ -217,7 +218,7 @@ router.get('/:id', (req, res) => {
 			deck.cards.forEach(card => {
 				Cards.findById(card._id)
 				.then(card => {
-					cards.push(card.name)
+					cards.push(card)
 				})
 				.catch(err => console.log(err))
 			})
